@@ -63,23 +63,28 @@ n_distinct(OrdwaySpeciesNames$SpeciesNameCleaned)
 
 
 ### Step 2
-  
-
-
 
 ```{r}
 # inspect OrdwaySpeciesNames
-
+summary(OrdwaySpeciesNames)
+nrow(OrdwaySpeciesNames)
+head(OrdwaySpeciesNames)
 
 # inner join
-
-
-
+Corrected <-
+  OrdwayBirds %>%
+  inner_join( OrdwaySpeciesNames ) %>% 
+  select( Species = SpeciesNameCleaned, Month, Day ) %>%
+  na.omit()  # cleaned up the missing ones
 
 # inspect the data after the join
-
+nrow(Corrected)
+head(Corrected)
+sample_n(Corrected, 10)
+n_distinct(Corrected$Species)
 
 ```
+- After joining the two tables, the new Corrected table ensures that all species names are uniformly spelled. The variable SpeciesName was used to match cases and inner join the two tables. The variable that is added is a Species variable, which contains the corresponding SpeciesNameCleaned from the OrdwaySpeciesNames table.
 
 
 ### Step 3
@@ -88,21 +93,22 @@ We want to identify the top 5-6 bird species sighted at the Katherine Ordway Nat
 
 ```{r}
 # count sightings by species in descending order
-
-
-
-
-# a hint in the text book recommends displaying the top 10 species to choose our threshold
-
-
+Corrected %>%
+  group_by(Species) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count)) %>%
+  head(10) # a hint in the text book recommends displaying the top 10 species to choose our threshold
 
 # define a sightings threshold; produce a table with only birds belonging to major species
+Majors <- 
+  Corrected %>%
+  group_by(Species) %>%
+  summarise(count = n()) %>%
+  filter(count > 1000)
 
-
-
-
+head(Majors)
 ```
-
+-  I began by finding the number of bird captures for each species. I arranged these numbers into descending order, and was able to locate the top ten most captures birds during the data collection. For my definition of a major species, it is any species with count over 1000.I used this definition to filter out species into the new Majors data.
 
 ### Step 4
 
