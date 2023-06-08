@@ -1,7 +1,7 @@
 ---
 title: "Activity: Bird Species"
-author: "Your Names Here"
-date: "DUE DATE "
+author: "Madeline Mucciolo"
+date: "June 7 2023"
 output: html_notebook
 ---
 
@@ -10,20 +10,21 @@ output: html_notebook
 
 ```{r}
 # Load `tidyverse` and `dcData` packages
-
-
-
+library(tidyverse)
+library(dcData)
 
 # Load the `OrdwayBirds` data set into your RStudio environment from the `dcData` package
-
-
-
+data('OrdwayBirds', package = 'dcData')
 
 # Show a few commands used to inspect the data set a few different ways
-
-
-
+summary(OrdwayBirds)
+head(OrdwayBirds)
+sample_n(OrdwayBirds, 10)
+nrow(OrdwayBirds)
+?OrdwayBirds
 ```
+- After briefly inspecting the data set, we see that there close to 16,000 cases and 26 variables for each. The data contains information about birds that were captured and released at the Katharine Ordway Natural History Study Area. The data contains variables describing the date and time they were captured (ex: 'Day', 'Month', 'CaptureTime'), describing the birds (ex: 'SpeciesName', 'Age', 'Sex') and other variables about the capture (ex: 'Weather', 'DataEntryPerson').
+
 
 # Activity
 
