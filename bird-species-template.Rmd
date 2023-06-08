@@ -108,31 +108,37 @@ Majors <-
 
 head(Majors)
 ```
--  I began by finding the number of bird captures for each species. I arranged these numbers into descending order, and was able to locate the top ten most captures birds during the data collection. For my definition of a major species, it is any species with count over 1000.I used this definition to filter out species into the new Majors data.
+-  I began by finding the number of bird captures for each species. I arranged these numbers into descending order, and was able to locate the top ten most captures birds during the data collection. For my definition of a major species, it is any species with count over 1000.I used this definition to filter out species into the new Majors data.  
+
 
 ### Step 4
 
 We now want to produce a month-by-month count for each of the major species, and then construct a chart to tell the story of what time of year the various species appear.
 
 ```{r}
-# prepare glyph-ready data table called `ByMonth`
+ByMonth <-
+  Majors %>%
+  left_join(Corrected) %>%
+  select(Species, Month) %>%
+  group_by(Species, Month) %>%
+  summarise(Count_Per_month = n())
 
-
-
+print(ByMonth)
 ```
+- I created ByMonth, a table containing only the major species (as defined above) and the number of sightings for each per month. I had to use a join between the Majors table and the Corrected table.
+
 
 Now use the ggplot template below to generate the desired graph. (Remark you can also use esquisser or mplot to create a line chart instead of the barchart)
-
 
 
 ```{r}
 # ggplot commands
 
 ByMonth %>% 
-  ggplot(aes(x = Month, y = count, color = Species)) + 
+  ggplot(aes(x = Month, y = Count_Per_month, color = Species)) + 
   geom_line()
 
-ByMonth %>% ggplot(aes(x=Month,y=count ,fill=Species)) +
+ByMonth %>% ggplot(aes(x=Month,y=Count_Per_month ,fill=Species)) +
   geom_bar(stat='identity',position='stack', width=.9) 
 
 ```
@@ -140,24 +146,18 @@ ByMonth %>% ggplot(aes(x=Month,y=count ,fill=Species)) +
 According to the graph, we can answer the questions posed:
 
 ##### 1. Which species are present year-round?  
-
+- American Gold Finch and Black-capped Chickadee are the only two major species present year-round.  
 
 
 ##### 2. Which species are migratory, that is, primarily present in one or two seasons?
-
-
+- Field Sparrows, Slate-colored Juncos and Tree Swallows are migratory species.
 
 
 ##### 3. What is the peak month for each major species? (bullet list)
-
+- The peak month for American Goldfinch is the 10th month (October). The peak month for Black-capped Chickadee is the 11th month (November). The peak month for Field Sparrow is the 5th month (May). The peak month for Slate-colored Juno is the 10th month (October). The peak month for Tree Swallow is the 3rd month (March).
 
 
 
 ##### 4. Which major species are seen in good numbers for at least 6 months of the year?
-
-
-
-```{r}
-
-```
+- All of the major species are seen in good numbers for at least 6 months of the year.
 
