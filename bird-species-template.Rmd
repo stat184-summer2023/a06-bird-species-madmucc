@@ -36,31 +36,30 @@ Before we begin, the book gives us some instructions to select a few key variabl
 
 ```{r}
 # Get the data table & clean up dates (see Data Computing eBook)
-
-
+OrdwayBirds <-
+  OrdwayBirds %>%
+  select( SpeciesName, Month, Day ) %>%
+  mutate( Month = as.numeric(as.character(Month)), 
+          Day = as.numeric(as.character(Day))) 
 
 # Inspect resulting data
-
-
+head(OrdwayBirds)
+sample_n(OrdwayBirds, 10)
+nrow(OrdwayBirds)
 ```
-
+- After tidying the data into a more suitable form for our uses, the resulting table only has 3 columns ('SpeciesName', 'Month', 'Day') but still contains all of the original rows.
 
 
 ### Step 1
-
-
-
-
 ```{r}
 # unique species in original data (including mis-spellings)
-
-
+n_distinct(OrdwayBirds$SpeciesName)
 
 # unique species in the clean list
-
-
-
+data('OrdwaySpeciesNames', package = 'dcData')
+n_distinct(OrdwaySpeciesNames$SpeciesNameCleaned)
 ```
+- In the species list with incorrect spellings, there were 275 different listed species. However, in the cleaned list, there were only 109 species. 
 
 
 ### Step 2
